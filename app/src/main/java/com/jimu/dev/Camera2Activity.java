@@ -18,6 +18,7 @@ import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -29,14 +30,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
  * Created by Ljh on 2020/12/23.
  * Description:
+ * https://www.jianshu.com/p/7f766eb2f4e7
  */
 public class Camera2Activity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "Camera2Activity";
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
 
     ///为了使照片竖直显示
@@ -56,12 +62,14 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
     private ImageReader mImageReader;
     private CameraCaptureSession mCameraCaptureSession;
     private CameraDevice mCameraDevice;
+    private File mFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera2);
         initVIew();
+        mFile = new File(getExternalFilesDir(null), "pic.jpg");
     }
 
     /**
@@ -73,7 +81,6 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
         mSurfaceView = (SurfaceView) findViewById(R.id.surface_view_camera2_activity);
         mSurfaceView.setOnClickListener(this);
         mSurfaceHolder = mSurfaceView.getHolder();
-        mSurfaceHolder.setKeepScreenOn(true);
         // mSurfaceView添加回调
         mSurfaceHolder.addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -111,18 +118,21 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
         mImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() { //可以在这里处理拍照得到的临时照片 例如，写入本地
             @Override
             public void onImageAvailable(ImageReader reader) {
-                mCameraDevice.close();
-                mSurfaceView.setVisibility(View.GONE);
-                iv_show.setVisibility(View.VISIBLE);
-                // 拿到拍照照片数据
-                Image image = reader.acquireNextImage();
-                ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                byte[] bytes = new byte[buffer.remaining()];
-                buffer.get(bytes);//由缓冲区存入字节数组
-                final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                if (bitmap != null) {
-                    iv_show.setImageBitmap(bitmap);
-                }
+
+                childHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
+                //mCameraDevice.close();
+                //mSurfaceView.setVisibility(View.GONE);
+                //iv_show.setVisibility(View.VISIBLE);
+                //// 拿到拍照照片数据
+                //Image image = reader.acquireNextImage();
+                //ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                //byte[] bytes = new byte[buffer.remaining()];
+                //buffer.get(bytes);//由缓冲区存入字节数组
+                //final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                //if (bitmap != null) {
+                //    iv_show.setImageBitmap(bitmap);
+                //}
+
             }
         }, mainHandler);
         //获取摄像头管理
@@ -237,6 +247,53 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Saves a JPEG {@link Image} into the specified {@link File}.
+     */
+    private static class ImageSaver implements Runnable {
+
+        /**
+         * The JPEG image
+         */
+        private final Image mImage;
+        /**
+         * The file we save the image into.
+         */
+        private final File mFile;
+
+        ImageSaver(Image image, File file) {
+            mImage = image;
+            mFile = file;
+        }
+
+        @Override
+        public void run() {
+            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            FileOutputStream output = null;
+            try {
+                output = new FileOutputStream(mFile);
+                output.write(bytes);
+                Log.w(TAG,"ImageSaver output.write(bytes)");
+            } catch (IOException e) {
+                Log.w(TAG,"e:"+e.getMessage());
+                e.printStackTrace();
+            } finally {
+                Log.w(TAG,"ImageSaver close "+mFile.getAbsolutePath());
+                mImage.close();
+                if (null != output) {
+                    try {
+                        output.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
     }
 }
 
