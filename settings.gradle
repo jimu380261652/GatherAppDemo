@@ -1,2 +1,3 @@
+include ':jimu_lib'
 include ':app'
 rootProject.name = "GatherAppDemo"
