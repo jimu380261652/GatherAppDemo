@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
@@ -26,7 +27,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
+
+android{ useLibrary 'org.apache.http.legacy'}
 
 dependencies {
 
@@ -36,4 +46,23 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.google.guava:guava:15.0'
+//    implementation 'com.xiaomi.infra.galaxy:galaxy-fds-core:3.0.8'
+//    implementation 'com.xiaomi.infra.galaxy:galaxy-fds-sdk-android:3.0.8'
+    implementation 'com.xiaomi.infra.galaxy:galaxy-fds-sdk-java:3.0.37'
+    implementation 'com.github.tomakehurst:wiremock:2.13.0'
+
+    implementation rootProject.ext.dependencies["rxjava"]
+    implementation rootProject.ext.dependencies["rxandroid"]
+    implementation rootProject.ext.dependencies["retrofit"]
+    implementation rootProject.ext.dependencies["converter-gson"]
+    implementation rootProject.ext.dependencies["adapter-rxjava"]
+    implementation rootProject.ext.dependencies["logging-interceptor"]
+}
+repositories {
+    mavenCentral()
 }
