@@ -69,7 +69,7 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera2);
         initVIew();
-        mFile = new File(getExternalFilesDir(null), "pic.jpg");
+        mFile = new File(getExternalFilesDir(null), "pic.jpg");// /storage/emulated/0/Android/data/com.jimu.dev/files/pic.jpg
     }
 
     /**
