@@ -13,6 +13,11 @@ import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaomi.infra.galaxy.fds.auth.signature.Signer;
+import com.xiaomi.infra.galaxy.fds.client.exception.GalaxyFDSClientException;
+
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     TextClock tvClockTm,tvClockTm1;
@@ -35,8 +40,21 @@ public class MainActivity extends AppCompatActivity {
                 v.setSelected(!v.isSelected());
                 refreshTm(v.isSelected());
                 //VoiceUtils.getInstance().startPlay(MainActivity.this,VoiceUtils.VoiceTypeEnum.VOICE_COOK_YR);
-                //startActivity(new Intent(MainActivity.this,Camera2Activity.class));
-                ToastUtil.show(MainActivity.this,"烹饪已完成", Toast.LENGTH_LONG);
+                startActivity(new Intent(MainActivity.this,Camera2Activity.class));
+                //ToastUtil.show(MainActivity.this,"烹饪已完成", Toast.LENGTH_LONG);
+            }
+        });
+
+        findViewById(R.id.btnTest2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    FDSDemo.testMakeUrl();
+                } catch (GalaxyFDSClientException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

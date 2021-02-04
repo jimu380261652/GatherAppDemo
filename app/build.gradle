@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
-
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.jimu.dev"
         minSdkVersion 23
@@ -36,7 +36,7 @@ android {
     }
 }
 
-android{ useLibrary 'org.apache.http.legacy'}
+//android{ useLibrary 'org.apache.http.legacy'}
 
 dependencies {
 

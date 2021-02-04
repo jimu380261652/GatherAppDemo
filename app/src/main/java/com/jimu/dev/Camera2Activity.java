@@ -113,7 +113,7 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
         handlerThread.start();
         childHandler = new Handler(handlerThread.getLooper());
         mainHandler = new Handler(getMainLooper());
-        mCameraID = "" + CameraCharacteristics.LENS_FACING_FRONT;//后摄像头
+        mCameraID = "" + CameraCharacteristics.LENS_FACING_EXTERNAL;//后摄像头
         mImageReader = ImageReader.newInstance(1080, 1920, ImageFormat.JPEG,1);
         mImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() { //可以在这里处理拍照得到的临时照片 例如，写入本地
             @Override
@@ -137,6 +137,14 @@ public class Camera2Activity extends AppCompatActivity implements View.OnClickLi
         }, mainHandler);
         //获取摄像头管理
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
+            for(String cameraId:mCameraManager.getCameraIdList()){
+                CameraCharacteristics cameraCharacteristics = mCameraManager.getCameraCharacteristics(cameraId);
+                Log.d(TAG,"LENS_FACING "+cameraCharacteristics.get(CameraCharacteristics.LENS_FACING));
+            }
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
         try {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 return;

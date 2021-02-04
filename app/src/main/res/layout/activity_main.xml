@@ -25,6 +25,15 @@
         android:layout_margin="20dp"
         android:text="跳转"/>
 
+    <Button
+        android:id="@+id/btnTest2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnTest"
+        android:layout_margin="20dp"
+        android:text="测试"/>
+
     <TextClock
         android:id="@+id/tvClockTm"
         android:layout_width="wrap_content"
