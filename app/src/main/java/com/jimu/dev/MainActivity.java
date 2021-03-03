@@ -13,8 +13,8 @@ import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xiaomi.infra.galaxy.fds.auth.signature.Signer;
-import com.xiaomi.infra.galaxy.fds.client.exception.GalaxyFDSClientException;
+//import com.xiaomi.infra.galaxy.fds.auth.signature.Signer;
+//import com.xiaomi.infra.galaxy.fds.client.exception.GalaxyFDSClientException;
 
 import java.io.IOException;
 
@@ -48,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnTest2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    FDSDemo.testMakeUrl();
-                } catch (GalaxyFDSClientException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //try {
+                //    FDSDemo.testMakeUrl();
+                //} catch (GalaxyFDSClientException e) {
+                //    e.printStackTrace();
+                //} catch (IOException e) {
+                //    e.printStackTrace();
+                //}
             }
         });
     }
