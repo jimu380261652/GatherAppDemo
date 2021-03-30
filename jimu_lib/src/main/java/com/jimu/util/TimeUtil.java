@@ -70,4 +70,16 @@ public class TimeUtil {
     public static int getMinute(){
         return Integer.parseInt(minuFormat.format(new Date(System.currentTimeMillis())));
     }
+
+    /**
+     * 是否是闰年
+     *
+     * @param year year
+     * @return 是否是闰年
+     */
+    public static boolean isLeapYear(int year) {
+        return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+    }
+
+
 }

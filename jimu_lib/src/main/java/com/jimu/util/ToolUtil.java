@@ -49,39 +49,8 @@ import java.util.regex.Pattern;
 
 import static android.content.Context.WIFI_SERVICE;
 
-/**
- * 公共工具类
- * Created by William on 2018/1/20.
- */
 public class ToolUtil {
     private static final String TAG = ToolUtil.class.getSimpleName();
-
-    /**
-     * dp 转 px
-     */
-    public static int dpToPx(Context context, float dip) {
-        float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dip * scale + 0.5f * (dip >= 0 ? 1 : -1));
-    }
-
-    /**
-     * 获取屏幕高度(px)
-     */
-    public static int getScreenHeight(Context context) {
-        return context.getResources().getDisplayMetrics().heightPixels;
-    }
-
-    /**
-     * 获取屏幕宽度(px)
-     */
-    public static int getScreenWidth(Context context) {
-        return context.getResources().getDisplayMetrics().widthPixels;
-    }
-
-    static String getScreenWidthHeight(Context context) {
-        return getScreenWidth(context) + "*" + getScreenHeight(context);
-    }
-
 
     /**
      * 根据 Key 获取系统底层属性
@@ -145,89 +114,6 @@ public class ToolUtil {
         return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
-    /**
-     * 获取冰箱型号
-     */
-    //public static String getDeviceModel() {
-    //    String defaultModel = FridgePreference.getInstance().getModel();
-    //    String type = SystemPropertiesProxy.get(FridgeApplication.getContext(), "ro.viomi.type");
-    //    LogUtil.i("getPhoneModel", "type = " + type);
-    //    if (type == null) {
-    //        LogUtil.e("getPhoneModel", "null");
-    //        return defaultModel;
-    //    }
-    //    if (!type.equals("viomi.fridge.x2")) {
-    //        String sn = SystemPropertiesProxy.get(FridgeApplication.getContext(), "gsm.serial");
-    //        if (sn == null) {
-    //            LogUtil.e("getDeviceModel", "sn null");
-    //            return defaultModel;
-    //        } else {
-    //            LogUtil.d("getDeviceModel", sn + ",length = " + sn.length());
-    //        }
-    //        if (sn.length() <= 24 || (!sn.contains("|"))) {
-    //            LogUtil.e("getDeviceModel", "sn error");
-    //            return defaultModel;
-    //        }
-    //        String[] list = sn.split("\\|");
-    //        if (list.length != 3) {
-    //            LogUtil.e("getDeviceModel", "sn spit error");
-    //            return defaultModel;
-    //        }
-    //        String typeStr = list[2];
-    //        String model = defaultModel;
-    //        switch (type) {
-    //            case "viomi.fridge.jd1": // 京东款
-    //                if ("x450".equals(typeStr)) { // 450
-    //                    model = AppConstants.MODEL_JD;
-    //                }
-    //                break;
-    //            case "viomi.fridge.gh1": // 国美款
-    //                if ("x450".equals(typeStr)) { // 450
-    //                    model = AppConstants.MODEL_GM;
-    //                }
-    //                break;
-    //            case "viomi.fridge.x3": // 云米款
-    //                switch (typeStr) {
-    //                    case "v01": // 462
-    //                        model = AppConstants.MODEL_X3;
-    //                        break;
-    //                    case "v02": // 450
-    //                    case "x450": // 450
-    //                        model = AppConstants.MODEL_X4;
-    //                        break;
-    //                    case "v03": // 521
-    //                        model = AppConstants.MODEL_X5;
-    //                        break;
-    //                    case "x489": // 489
-    //                        model = AppConstants.MODEL_X6;
-    //                        break;
-    //                    case "x428": // 428
-    //                        model = AppConstants.MODEL_X7;
-    //                        break;
-    //                    case "x412": // 412
-    //                        model = AppConstants.MODEL_X8;
-    //                        break;
-    //                    case "x451": // 451
-    //                        model = AppConstants.MODEL_X9;
-    //                        break;
-    //                    case "x525v": // 525
-    //                        model = AppConstants.MODEL_X10;
-    //                        break;
-    //                    case "x525": // 525
-    //                        model = AppConstants.MODEL_X11;
-    //                        break;
-    //                    case "x408": // 408
-    //                        model = AppConstants.MODEL_X12;
-    //                        break;
-    //                    case "p603": // 603
-    //                        model = AppConstants.MODEL_P1;
-    //                        break;
-    //                }
-    //                break;
-    //        }
-    //        return model;
-    //    } else return AppConstants.MODEL_X2;// 446
-    //}
 
     /**
      * 获取屏幕厂家
@@ -298,19 +184,6 @@ public class ToolUtil {
     //    }
     //}
 
-    /**
-     * 上传米家版本号
-     */
-    //public static String getMiVersion() {
-    //    try {
-    //        PackageManager manager = FridgeApplication.getContext().getPackageManager();
-    //        PackageInfo info = manager.getPackageInfo(FridgeApplication.getContext().getPackageName(), 0);
-    //        return "3.0.3_0" + info.versionCode;
-    //    } catch (Exception e) {
-    //        e.printStackTrace();
-    //        return "";
-    //    }
-    //}
 
     /**
      * int ip 地址格式化
@@ -469,13 +342,6 @@ public class ToolUtil {
     //        e.printStackTrace();
     //        return null;
     //    }
-    //}
-
-    //static String getSSid() {
-    //    WifiManager wifiManager = (WifiManager) FridgeApplication.instance.getApplicationContext().getSystemService(WIFI_SERVICE);
-    //    if (wifiManager == null) return null;
-    //    WifiInfo info = wifiManager.getConnectionInfo();
-    //    return info != null ? info.getSSID() : null;
     //}
 
     /**
@@ -714,48 +580,6 @@ public class ToolUtil {
         return minute + ":" + (second < 10 ? "0" + second : second);
     }
 
-    //public static String getModelName() {
-    //    switch (FridgePreference.getInstance().getModel()) {
-    //        case AppConstants.MODEL_X1:
-    //            return "云米大屏冰箱升级版 ";
-    //        case AppConstants.MODEL_X2:
-    //            return "云米互联网冰箱21Face(十字四门446L)";
-    //        case AppConstants.MODEL_X3:
-    //            return "云米互联网冰箱21Face(法式462L)";
-    //        case AppConstants.MODEL_X4:
-    //            return "云米互联网冰箱21Face(对开门450L)";
-    //        case AppConstants.MODEL_X5:
-    //            return "云米互联网冰箱21Face(十字四门式521L)";
-    //        case AppConstants.MODEL_X6:
-    //            return "云米互联网冰箱21Face(十字四门489L)";
-    //        case AppConstants.MODEL_X7:
-    //            return "云米互联网冰箱21Face(对开门428L)";
-    //        case AppConstants.MODEL_X8:
-    //            return "云米互联网冰箱21Face(T字门412L)";
-    //        case AppConstants.MODEL_X9:
-    //            return "云米互联网冰箱 21Face(对开门 451L)";
-    //        case AppConstants.MODEL_X10:
-    //        case AppConstants.MODEL_X11:
-    //            return "云米互联网冰箱 21Face(对开门 525L)";
-    //        case AppConstants.MODEL_X12:
-    //            return "云米互联网冰箱21Face(T字门408L)";
-    //        case AppConstants.MODEL_P1:
-    //            return "云米互联网冰箱32Face(十字四门603L)";
-    //        case AppConstants.MODEL_JD:
-    //            return "云米互联网冰箱21Face(对开门450L京东定制款)";
-    //        case AppConstants.MODEL_GM:
-    //            return "云米互联网冰箱21Face(对开门450L国美定制版)";
-    //        case AppConstants.MODEL_B1:
-    //            return "云米互联网冰箱（对开门380L）";
-    //        case AppConstants.MODEL_B3:
-    //            return "云米互动大屏冰箱（十字四门408L）";
-    //        case AppConstants.MODEL_X26:
-    //            return "云米互联网冰箱 21Face";
-    //        default:
-    //            return FridgePreference.getInstance().getFridgeName(FridgeApplication.getContext());
-    //    }
-    //}
-
     /**
      * 获取外网的 IP（要访问 Url，要放到后台线程里处理）
      */
@@ -797,33 +621,6 @@ public class ToolUtil {
             }
         }
         return ipLine;
-    }
-
-    /**
-     * 判断 Release 和 Debug 版本
-     */
-    //public static boolean isApkInDebug() {
-    //    try {
-    //        ApplicationInfo info = FridgeApplication.getContext().getApplicationInfo();
-    //        return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-    //    } catch (Exception e) {
-    //        e.printStackTrace();
-    //        return false;
-    //    }
-    //}
-
-    /**
-     * 隐藏和显示输入法
-     */
-    public static void showOrHideKeyboard(Context context, View view, boolean isShow) {
-        if (context == null || view == null) return;
-        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager == null) return;
-        if (isShow) {
-            inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-        } else {
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
     }
 
     /**
@@ -876,37 +673,6 @@ public class ToolUtil {
         return m.find();
     }
 
-    /**
-     * 判断屏幕系列
-     */
-    //public static String getScreenType() {
-    //    if (Build.DISPLAY.contains(AppConstants.SCREEN_15_FACE)) {
-    //        return AppConstants.SCREEN_15_FACE;
-    //    } else return AppConstants.SCREEN_21_FACE;
-    //}
-
-    /**
-     * 判断麦克风类型
-     */
-    //public static ViomiSpeechConfig.Type getMicroPhoneType() {
-    //    if (com.viomi.fridge.vertical.common.util.ToolUtil.getScreenType().equals(AppConstants.SCREEN_15_FACE)) {
-    //        return ViomiSpeechConfig.Type.DEVICE_FRIDGE_15_FACE_2_MIC;
-    //    } else {
-    //        String type = "";
-    //        try {
-    //            type = SystemPropertiesProxy.get(FridgeApplication.getContext(), "ro.hardware.mic");
-    //        } catch (Exception e) {
-    //            LogUtil.e(TAG, "getMicroPhoneType error!msg = " + e.getMessage());
-    //            e.printStackTrace();
-    //        }
-    //        LogUtil.d(TAG, "getMicroPhoneType = " + type);
-    //        if (type.equals("2")) {
-    //            return ViomiSpeechConfig.Type.DEVICE_FRIDGE_15_FACE_2_MIC;
-    //        } else {
-    //            return ViomiSpeechConfig.Type.DEVICE_FRIDGE_21_FACE_4_MIC;
-    //        }
-    //    }
-    //}
 
     public static String stringForTime(long timeMs) {
         int totalSeconds = (int) timeMs / 1000;
@@ -922,17 +688,4 @@ public class ToolUtil {
         }
     }
 
-    /**
-     * 判断厂家
-     */
-    //public static String getFactoryCode() {
-    //    if (Build.DISPLAY.contains(AppConstants.CODE_LVLIAN)) {
-    //        return AppConstants.CODE_LVLIAN;
-    //    } else if (Build.DISPLAY.contains(AppConstants.CODE_CND)) {
-    //        return AppConstants.CODE_CND;
-    //    } else if (Build.DISPLAY.contains(AppConstants.CODE_CVTE)) {
-    //        return AppConstants.CODE_CVTE;
-    //    }
-    //    return AppConstants.CODE_LVLIAN;
-    //}
 }

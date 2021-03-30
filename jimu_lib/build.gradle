@@ -5,6 +5,8 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
+//    resourcePrefix "jimu_"
+//    resourcePrefix "${project.name}_"
 
     defaultConfig {
         minSdkVersion 23
